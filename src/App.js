@@ -6,10 +6,15 @@ import About from './pages/About';
 import ErrorPage from './pages/ErrorPage';
 import AddEditUser from './pages/AddEditUser';
 import UserInformation from './pages/UserInformation';
+import Header from './components/Header';
 
 function App() {
   return (
     <div className="App">
+      <div className="mb-5">
+      <Header/>
+      </div>
+
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/addUser" element={<AddEditUser />} />
