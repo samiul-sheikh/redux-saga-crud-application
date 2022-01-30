@@ -6,6 +6,20 @@
       "email": "samiul@gmail.com",
       "phone": "01784097404",
       "address": "Dhaka"
+    },
+    {
+      "name": "sami",
+      "email": "sheikh.samiul1971@gmail.com",
+      "phone": "1784097404",
+      "address": "Mirpur",
+      "id": 2
+    },
+    {
+      "name": "samiul sheikh",
+      "email": "sheikh.samiul21@gmail.com",
+      "phone": "1784097405",
+      "address": "Basundhara",
+      "id": 3
     }
   ]
 }

@@ -2,11 +2,16 @@ import React from 'react';
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { createUserStart } from '../redux/actions';
 
 const AddEditUser = () => {
 
     const navigate = useNavigate();
-    const { id } = useParams();
+
+    const dispatch = useDispatch();
+
+    // const { id } = useParams();
 
     const validation = useFormik({
         enableReinitialize: true,
@@ -27,6 +32,9 @@ const AddEditUser = () => {
 
         onSubmit: (values) => {
             console.log("values", values);
+            dispatch(createUserStart(values));
+            // toast.success("User Added Successfully");
+            setTimeout(() => navigate("/"), 500);
         }
 
     });
