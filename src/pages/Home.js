@@ -1,23 +1,33 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadUsersStart } from '../redux/actions';
-import { Table, Button } from 'react-bootstrap';
+import { loadUsersStart, deleteUserStart } from '../redux/actions';
+import { Table, Button, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { users } = useSelector((state) => state.data);
+    const { users, loading } = useSelector((state) => state.data);
 
     useEffect(() => {
         dispatch(loadUsersStart());
     }, []);
 
+    // delete user
     const handleDelete = (id) => {
-
-    }
+        if (window.confirm("Are you sure you wanted to delete this user?")) {
+            dispatch(deleteUserStart(id));
+            toast.success("Delete User Successfully");
+        }
+    };
 
     return (
         <div className="container">
+
+            {loading && <div className="mb-3">
+                <Spinner animation="grow" variant="info" />
+            </div>}
+
             <Table striped bordered hover>
                 <thead>
                     <tr>

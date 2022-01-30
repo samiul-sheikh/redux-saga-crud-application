@@ -7,12 +7,15 @@ import ErrorPage from './pages/ErrorPage';
 import AddEditUser from './pages/AddEditUser';
 import UserInformation from './pages/UserInformation';
 import Header from './components/Header';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <div className="App">
+      <ToastContainer />
       <div className="mb-5">
-      <Header/>
+        <Header />
       </div>
 
       <Routes>

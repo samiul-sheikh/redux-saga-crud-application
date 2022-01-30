@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createUserStart } from '../redux/actions';
+import { toast } from 'react-toastify';
 
 const AddEditUser = () => {
 
@@ -33,7 +34,7 @@ const AddEditUser = () => {
         onSubmit: (values) => {
             console.log("values", values);
             dispatch(createUserStart(values));
-            // toast.success("User Added Successfully");
+            toast.success("User Added Successfully");
             setTimeout(() => navigate("/"), 500);
         }
 
