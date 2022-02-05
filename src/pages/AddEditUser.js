@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createUserStart } from '../redux/actions';
+import { createUserStart, updateUserStart } from '../redux/actions';
 import { toast } from 'react-toastify';
 
 const AddEditUser = () => {
@@ -12,17 +12,29 @@ const AddEditUser = () => {
 
     const dispatch = useDispatch();
 
-    // const { id } = useParams();
+    const { id } = useParams();
+    // console.log(("id", typeof id));
+
+    const { users } = useSelector((state) => state.data);
+
+    const [initialValues, setInitialValues] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+    });
+
+    const [editMode, setEditMode] = useState(false);
 
     const validation = useFormik({
         enableReinitialize: true,
 
-        initialValues: {
-            name: '',
-            email: '',
-            phone: '',
-            address: '',
-        },
+        initialValues,
+        //     name: '',
+        //     email: '',
+        //     phone: '',
+        //     address: '',
+        // },
 
         validationSchema: Yup.object({
             name: Yup.string().required("Please Enter Your Name"),
@@ -32,17 +44,43 @@ const AddEditUser = () => {
         }),
 
         onSubmit: (values) => {
-            console.log("values", values);
-            dispatch(createUserStart(values));
-            toast.success("User Added Successfully");
-            setTimeout(() => navigate("/"), 500);
+            if (!editMode) {
+                console.log("values", values);
+                dispatch(createUserStart(values));
+                toast.success("User Added Successfully");
+                setTimeout(() => navigate("/"), 500);
+            }
+            else {
+                dispatch(updateUserStart({ id, values }));
+                setEditMode(false);
+                toast.success("User Updated Successfully");
+                setTimeout(() => navigate("/"), 500);
+            }
         }
 
     });
 
+    useEffect(() => {
+        if (id) {
+            setEditMode(true)
+            const singleUser = users.find((item) => item.id === Number(id));
+            setInitialValues(singleUser);
+            // console.log(singleUser);
+        }
+        // else {
+        //     setEditMode(false);
+        //     setInitialValues({
+        //         name: "",
+        //         email: "",
+        //         phone: "",
+        //         address: "",
+        //     });
+        // }
+    }, [id])
+
     return (
         <div className="container">
-            <h2>Add or Edit user</h2>
+            <h2>{!editMode ? "Add New" : "Update Existing"} User</h2>
             <div className="row justify-content-center mt-3">
                 <div className="col-md-6">
                     <form
@@ -131,8 +169,8 @@ const AddEditUser = () => {
                                 <p type="invalid" className="text-danger">{validation.errors.address}</p>
                             ) : null}
                         </div>
-                        <button type="submit" className="btn btn-success">Add User</button> {' '}
-                        <button onClick={() => navigate("/")} type="button" class="btn btn-danger"> Go Back</button>
+                        <button type="submit" className="btn btn-success">{!editMode ? "Add User" : "Update User"}</button> {' '}
+                        <button onClick={() => navigate("/")} type="button" className="btn btn-danger"> Go Back</button>
                     </form>
                 </div>
             </div>

@@ -7,11 +7,13 @@ import { toast } from 'react-toastify';
 
 const Home = () => {
     const dispatch = useDispatch();
-    const { users, loading } = useSelector((state) => state.data);
+    const { users, loading, error } = useSelector((state) => state.data);
 
     useEffect(() => {
         dispatch(loadUsersStart());
     }, []);
+
+    useEffect(() => error && toast.error(error), [error]);
 
     // delete user
     const handleDelete = (id) => {
